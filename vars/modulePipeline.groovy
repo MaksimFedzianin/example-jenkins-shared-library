@@ -1,11 +1,12 @@
 def call(body) {
 
+/*
 	inputParams = [:]
 	
 	body.resolveStrategy = Closure.DELEGATE_FIRST
 	body.delegate = inputParams
 	body()
-
+*/
 	echo "build id is ${env.BUILD_ID}"
 
 	node {
