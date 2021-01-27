@@ -60,6 +60,29 @@ def call(body) {
 				""")
 			}
 		}
+		
+		stage('Run new jobs') {
+			
+			try {
+				jenkins.model.Jenkins.instance.getAllItems(Job.class).each{
+
+					//Отыскиваем все модульные джобы
+					if (!it.fullName.startsWith('module/')) {
+						return;
+					}
+
+					//Если в джобе нет билдов то стартуем ее
+					if (it.getBuilds().size() == 0) {
+						println("queue job $it.fullName")
+
+						build job: it.fullName, quietPeriod: 0, wait: false;
+					}
+
+				}
+			} catch (err) {
+				echo "failed to run job : $err"
+			}
+        }
         stage('Install') {
             echo 'Installing...'
         }
