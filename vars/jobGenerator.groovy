@@ -11,8 +11,7 @@ def call(body) {
 	echo 'repoUrl is :' + inputParams.repoUrl
 	
     node {
-        //checkout scm
-		stage('Pull source') {
+        stage('Pull source') {
             echo 'Pulling ' + inputParams.repoUrl
 			checkout scm: [$class: 'GitSCM',
 									   userRemoteConfigs: [[url: inputParams.repoUrl]]
@@ -22,6 +21,14 @@ def call(body) {
 			echo 'Getting branches...'
 			branches = getRepositoryBranches()
 			echo 'Branch list: ' + branches
+		}
+		stage('Update modules jobs') {
+			jobDslExecute("""
+				folder('module') {
+					description 'Folder for module pipelines'
+					displayName 'Module Pipelines'
+				}
+			""")
 		}
         stage('Install') {
             echo 'Installing...'
@@ -48,4 +55,9 @@ private List getRepositoryBranches(){
 	}
 	
 	return result
+}
+
+private void jobDslExecute(String jobDslScript) {
+	echo jobDslScript
+	jobDsl scriptText: jobDslScript
 }
