@@ -17,11 +17,6 @@ def call(body) {
 									   userRemoteConfigs: [[url: inputParams.repoUrl]]
 						]
         }
-		stage('Get branches') {
-			echo 'Getting branches...'
-			branches = getRepositoryBranches()
-			echo 'Branch list: ' + branches
-		}
 		stage('Update modules jobs') {
 			jobDslExecute("""
 				folder('module') {
@@ -29,6 +24,41 @@ def call(body) {
 					displayName 'Module Pipelines'
 				}
 			""")
+			
+			echo 'Getting branches...'
+			branches = getRepositoryBranches()
+			echo 'Branch list: ' + branches
+			
+			List<String> moduleJobs = [];
+			
+			branches.each { branch ->
+				String jobName = "module/" + branch
+				echo 'jobName is: ' + jobName
+				moduleJobs << jobName
+				
+				String scriptText = """
+						modulePipeline()
+						"""
+				
+				
+				jobDslExecute("""
+					pipelineJob('$jobName') {
+						description '\"$jobName\" pipeline'
+													
+						definition {
+							cps {
+								script(\"\"\"$scriptText\"\"\")
+								sandbox(true)
+							}						
+						}
+							
+						logRotator {
+							numToKeep(5)
+						}
+							
+					}		
+				""")
+			}
 		}
         stage('Install') {
             echo 'Installing...'
