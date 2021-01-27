@@ -10,6 +10,12 @@ def call(body) {
 	echo "branch is " + inputParams.gitBranch
 
 	node {
+		stage('Checkout') {
+			git(
+					url          : inputParams.repoUrl,
+					branch       : inputParams.gitBranch
+				)
+		}
         stage('Build') {
             echo 'Building...'
 			bat 'gradlew clean build -x test'

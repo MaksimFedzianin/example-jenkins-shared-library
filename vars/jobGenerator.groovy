@@ -37,6 +37,7 @@ def call(body) {
 				String scriptText = """
 						modulePipeline {
 							gitBranch = "$branch"
+							repoUrl = "$inputParams.repoUrl"
 						}
 						"""
 				
