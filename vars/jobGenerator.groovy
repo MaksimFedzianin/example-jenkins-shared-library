@@ -15,6 +15,8 @@ def call(body) {
 						]
 	remotes = bat(returnStdout: true, script: 'git branch -a | findstr \"remotes/origin\"')
 	echo remotes
+	remotes = remotes.replace("remotes/origin/", "")
+	echo 'branches without prefix is: ' + remotes
     node {
         //checkout scm
         stage('Install') {
