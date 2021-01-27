@@ -10,6 +10,9 @@ def call(body) {
 	
 	echo 'repoUrl is :' + inputParams.repoUrl
 	
+	checkout scm: [$class: 'GitSCM',
+									   userRemoteConfigs: [[url: inputParams.repoUrl]]
+						]
 	remotes = bat(returnStdout: true, script: 'git remote -v')
 	echo remotes
     node {
