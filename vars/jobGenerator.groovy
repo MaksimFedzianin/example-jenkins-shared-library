@@ -10,8 +10,6 @@ def call(body) {
 	
 	echo 'repoUrl is :' + inputParams.repoUrl
 	
-	
-	echo 'parsed branches are: ' + branches
     node {
         //checkout scm
 		stage('Pull source') {
