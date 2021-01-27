@@ -10,6 +10,8 @@ def call(body) {
 	
 	echo 'repoUrl is :' + inputParams.repoUrl
 	
+	remotes = bat(returnStdout: true, script: 'git remote -v')
+	echo remotes
     node {
         //checkout scm
         stage('Install') {
