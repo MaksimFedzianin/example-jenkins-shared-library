@@ -1,8 +1,6 @@
 def call(body) {
 	
-	def inputParams = [
-		repoUrl         : null
-	]
+	def inputParams = [:]
 
 	body.resolveStrategy = Closure.DELEGATE_FIRST
 	body.delegate = inputParams
@@ -21,7 +19,7 @@ def call(body) {
 			jobDslExecute("""
 				folder('module') {
 					description 'Folder for module pipelines'
-					displayName 'Module Pipelines'
+					displayName inputParams.modulePipelineName
 				}
 			""")
 			
@@ -73,7 +71,7 @@ def call(body) {
 
 					//Если в джобе нет билдов то стартуем ее
 					if (it.getBuilds().size() == 0) {
-						println("queue job $it.fullName")
+						println("Starting job $it.fullName")
 
 						build job: it.fullName, quietPeriod: 0, wait: false;
 					}
@@ -82,15 +80,6 @@ def call(body) {
 			} catch (err) {
 				echo "failed to run job : $err"
 			}
-        }
-        stage('Install') {
-            echo 'Installing...'
-        }
-        stage('Test') {
-            echo 'Testing...'
-        }
-        stage('Deploy') {
-            echo 'Deploying...'
         }
     }
 }
