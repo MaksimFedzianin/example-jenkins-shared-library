@@ -10,14 +10,21 @@ def call(body) {
 	
 	echo 'repoUrl is :' + inputParams.repoUrl
 	
-	checkout scm: [$class: 'GitSCM',
-									   userRemoteConfigs: [[url: inputParams.repoUrl]]
-						]
 	
-	branches = getRepositoryBranches()
 	echo 'parsed branches are: ' + branches
     node {
         //checkout scm
+		stage('Pull source') {
+            echo 'Pulling ' + inputParams.repoUrl
+			checkout scm: [$class: 'GitSCM',
+									   userRemoteConfigs: [[url: inputParams.repoUrl]]
+						]
+        }
+		stage('Get branches') {
+			echo 'Getting branches...'
+			branches = getRepositoryBranches()
+			echo 'Branch list: ' + branches
+		}
         stage('Install') {
             echo 'Installing...'
         }
