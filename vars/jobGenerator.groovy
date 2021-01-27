@@ -38,6 +38,7 @@ def call(body) {
 						modulePipeline {
 							gitBranch = "$branch"
 							repoUrl = "$inputParams.repoUrl"
+							artifactoryCredentialsId = "$inputParams.artifactoryCredentialsId"
 						}
 						"""
 				
