@@ -1,13 +1,24 @@
 def call(body) {
+
+	inputParams = [:]
+	
+	body.resolveStrategy = Closure.DELEGATE_FIRST
+	body.delegate = inputParams
+	body()
+
+	echo "build id is ${env.BUILD_ID}"
+
 	node {
-        stage('MP Install') {
-            echo 'Installing in module pipeline...'
+        stage('Build') {
+            echo 'Building...'
+			bat 'gradlew clean build -x test'
         }
-        stage('MP Test') {
-            echo 'Testing in module pipeline...'
+        stage('Test') {
+            echo 'Testing...'
+			bat 'gradlew test'
         }
-        stage('MP Deploy') {
-            echo 'Deploying in module pipeline...'
+        stage('Deploy') {
+            echo 'Deploying'
         }
     }
 }
