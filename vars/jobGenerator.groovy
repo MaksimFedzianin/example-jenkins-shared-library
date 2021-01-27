@@ -1,19 +1,14 @@
 def call(body) {
 	
-	/*
 	def inputParams = [
-		metaRelativePath     : 'jenkins/meta.groovy',
-		gitCredentialsId     : 'jenkins-git',
-		devopsGitUrl         : null,
-		devopsGitBranch      : 'dev',
-		ansibleInventoryName : null
+		repoUrl         : null
 	]
 
 	body.resolveStrategy = Closure.DELEGATE_FIRST
 	body.delegate = inputParams
 	body()
-	*/
-	echo 'repoUrl is :' + body.repoUrl
+	
+	echo 'repoUrl is :' + inputParams.repoUrl
 	
     node {
         //checkout scm
