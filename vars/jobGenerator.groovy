@@ -35,9 +35,12 @@ private List getRepositoryBranches(){
 	echo remotes
 	remotes = remotes.replace("remotes/origin/", "")
 	remotes = remotes.replace("/", "_")
-	echo 'branches without prefix is: ' + remotes
 	
-	List result  = remotes.readLines()
-	echo 'result size is: ' + result.size()  
+	List result =  [] 
+	
+	remotes.readLines().each {line ->
+	    result.add(line.trim())
+	}
+	
 	return result
 }
