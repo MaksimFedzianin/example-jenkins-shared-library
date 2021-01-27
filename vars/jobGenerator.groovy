@@ -19,7 +19,7 @@ def call(body) {
 			jobDslExecute("""
 				folder('module') {
 					description 'Folder for module pipelines'
-					displayName $inputParams.modulePipelineName
+					displayName '$inputParams.modulePipelineName'
 				}
 			""")
 			
