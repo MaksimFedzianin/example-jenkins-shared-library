@@ -30,12 +30,14 @@ def call(body) {
 			List<String> moduleJobs = [];
 			
 			branches.each { branch ->
-				String jobName = "module/" + branch
+				String jobName = "module/" + branch.replaceAll('/', '_')
 				echo 'jobName is: ' + jobName
 				moduleJobs << jobName
 				
 				String scriptText = """
-						modulePipeline()
+						modulePipeline {
+							gitBranch = "$branch"
+						}
 						"""
 				
 				
@@ -64,12 +66,10 @@ def call(body) {
 			try {
 				jenkins.model.Jenkins.instance.getAllItems(Job.class).each{
 
-					//Отыскиваем все модульные джобы
 					if (!it.fullName.startsWith('module/')) {
 						return;
 					}
 
-					//Если в джобе нет билдов то стартуем ее
 					if (it.getBuilds().size() == 0) {
 						println("Starting job $it.fullName")
 
@@ -88,7 +88,7 @@ private List getRepositoryBranches(){
 	remotes = bat(returnStdout: true, script: '@echo off | git branch -a | findstr \"remotes/origin\"')
 	echo remotes
 	remotes = remotes.replace("remotes/origin/", "")
-	remotes = remotes.replace("/", "_")
+	//remotes = remotes.replace("/", "_")
 	
 	List result =  [] 
 	
