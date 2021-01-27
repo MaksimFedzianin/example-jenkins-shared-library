@@ -31,7 +31,7 @@ def call(body) {
 }
 
 private List getRepositoryBranches(){
-	remotes = bat(returnStdout: true, script: 'git branch -a | findstr \"remotes/origin\"')
+	remotes = bat(returnStdout: true, script: '@echo off | git branch -a | findstr \"remotes/origin\"')
 	echo remotes
 	remotes = remotes.replace("remotes/origin/", "")
 	remotes = remotes.replace("/", "_")
