@@ -8,7 +8,7 @@ def call(body) {
 
 	echo "build id is ${env.BUILD_ID}"
 	echo "branch is " + inputParams.gitBranch
-
+	
 	node {
 		stage('Checkout') {
 			git(
@@ -24,27 +24,30 @@ def call(body) {
             echo 'Testing...'
 			bat 'gradlew test'
         }
-        stage('Deploy') {
-            echo 'Deploying'
-			
-			rtServer (
-                id: "local-artifactory",
-                url: "http://localhost:8081/artifactory",
-                username: 'admin',
-				password: 'Admin123'
-            )
+		
+		if(inputParams.gitBranch.equals('master')) {
+			stage('Deploy') {
+				echo 'Deploying'
+				
+				rtServer (
+					id: "local-artifactory",
+					url: "http://localhost:8081/artifactory",
+					username: 'admin',
+					password: 'Admin123'
+				)
 
-			rtUpload (
-				serverId: 'local-artifactory',
-				spec: """{
-					"files": [
-						{
-							"pattern": "build/libs/*.jar",
-							"target": "test-repo/example-pipeline/jar/$inputParams.gitBranch/${BUILD_NUMBER}/"
-						}
-					]
-				}"""				 
-			)			
-        }
+				rtUpload (
+					serverId: 'local-artifactory',
+					spec: """{
+						"files": [
+							{
+								"pattern": "build/libs/*.jar",
+								"target": "test-repo/example-shared-library-pipeline/jar/$inputParams.gitBranch/${BUILD_NUMBER}/"
+							}
+						]
+					}"""				 
+				)			
+			}
+		}
     }
 }
