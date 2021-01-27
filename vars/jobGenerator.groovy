@@ -37,7 +37,7 @@ private List getRepositoryBranches(){
 	remotes = remotes.replace("/", "_")
 	echo 'branches without prefix is: ' + remotes
 	
-	List result  = remotes.readLines().drop(1)
+	List result  = remotes.readLines()
 	echo 'result size is: ' + result.size()  
 	return result
 }
