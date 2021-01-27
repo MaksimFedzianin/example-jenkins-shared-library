@@ -13,7 +13,7 @@ def call(body) {
 	checkout scm: [$class: 'GitSCM',
 									   userRemoteConfigs: [[url: inputParams.repoUrl]]
 						]
-	remotes = bat(returnStdout: true, script: 'git remote -v')
+	remotes = bat(returnStdout: true, script: 'branch -a | findstr \"remotes/origin\"')
 	echo remotes
     node {
         //checkout scm
