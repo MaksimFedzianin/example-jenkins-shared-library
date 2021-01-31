@@ -9,7 +9,7 @@ class GitHelper implements Serializable {
 	List getBranches(repoUrl){
 		script.echo("fetching brancesh from url " + repoUrl)
 		
-		remotes = script.bat(returnStdout: true, script: '@echo off | git branch -a | findstr \"remotes/origin\"')
+		String remotes = script.bat(returnStdout: true, script: '@echo off | git branch -a | findstr \"remotes/origin\"')
 		remotes = remotes.replace("remotes/origin/", "")
 	
 		List result =  [] 
