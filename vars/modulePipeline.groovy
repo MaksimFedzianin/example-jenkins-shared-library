@@ -27,7 +27,7 @@ def call(body) {
 		
 		if(inputParams.gitBranch.equals('master')) {
 			stage('Deploy') {
-				echo 'Deploying'
+				echo 'Deploying...'
 				
 				rtServer (
 					id: "local-artifactory",

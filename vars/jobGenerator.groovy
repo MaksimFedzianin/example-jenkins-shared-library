@@ -1,10 +1,10 @@
 def call(body) {
 	
 	def inputParams = [:]
-
-	body.resolveStrategy = Closure.DELEGATE_FIRST
-	body.delegate = inputParams
-	body()
+	inputParams = body
+	//body.resolveStrategy = Closure.DELEGATE_FIRST
+	//body.delegate = inputParams
+	//body()
 	
 	echo 'repoUrl is :' + inputParams.repoUrl
 	echo new GitHelper(this).getBranches(inputParams.repoUrl).toString()
@@ -86,21 +86,6 @@ def call(body) {
 			}
         }
     }
-}
-
-private List getRepositoryBranches(){
-	remotes = bat(returnStdout: true, script: '@echo off | git branch -a | findstr \"remotes/origin\"')
-	echo remotes
-	remotes = remotes.replace("remotes/origin/", "")
-	//remotes = remotes.replace("/", "_")
-	
-	List result =  [] 
-	
-	remotes.readLines().each {line ->
-	    result.add(line.trim())
-	}
-	
-	return result
 }
 
 private void jobDslExecute(String jobDslScript) {
