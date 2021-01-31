@@ -1,4 +1,4 @@
-class GitHelper implement Serializable {
+class GitHelper implements Serializable {
 	
 	private final Script script;
 	
