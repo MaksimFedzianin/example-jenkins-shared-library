@@ -7,6 +7,7 @@ def call(body) {
 	body()
 	
 	echo 'repoUrl is :' + inputParams.repoUrl
+	echo new GitHelper().getBranches(inputParams.repoUrl)
 	
     node {
         stage('Pull source') {
