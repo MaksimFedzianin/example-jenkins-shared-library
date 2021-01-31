@@ -27,7 +27,7 @@ def call(body) {
 			
 			echo 'Getting branches...'
 			//branches = getRepositoryBranches()
-			branches = new GitHelper(this).getBranches(inputParams.repoUrl)
+			branches = new GitHelper(this).getBranches()
 			echo 'Branch list: ' + branches
 			
 			List<String> moduleJobs = [];
