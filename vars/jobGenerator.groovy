@@ -7,7 +7,6 @@ def call(body) {
 	body()
 	
 	echo 'repoUrl is :' + inputParams.repoUrl
-	echo new GitHelper(this).getBranches().toString()
 	
     node {
 		
