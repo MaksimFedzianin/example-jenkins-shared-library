@@ -1,10 +1,10 @@
 def call(body) {
 	
 	def inputParams = [:]
-	inputParams = body
-	//body.resolveStrategy = Closure.DELEGATE_FIRST
-	//body.delegate = inputParams
-	//body()
+
+	body.resolveStrategy = Closure.DELEGATE_FIRST
+	body.delegate = inputParams
+	body()
 	
 	echo 'repoUrl is :' + inputParams.repoUrl
 	echo new GitHelper(this).getBranches(inputParams.repoUrl).toString()
@@ -37,13 +37,11 @@ def call(body) {
 				moduleJobs << jobName
 				
 				String scriptText = """
-						@Library('example-shared-library')_
-						node {
 						modulePipeline {
 							gitBranch = "$branch"
 							repoUrl = "$inputParams.repoUrl"
 							artifactoryCredentialsId = "$inputParams.artifactoryCredentialsId"
-						}}
+						}
 						"""
 				
 				
