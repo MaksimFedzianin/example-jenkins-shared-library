@@ -37,11 +37,13 @@ def call(body) {
 				moduleJobs << jobName
 				
 				String scriptText = """
+						@Library('example-shared-library')_
+						node {
 						modulePipeline {
 							gitBranch = "$branch"
 							repoUrl = "$inputParams.repoUrl"
 							artifactoryCredentialsId = "$inputParams.artifactoryCredentialsId"
-						}
+						}}
 						"""
 				
 				
