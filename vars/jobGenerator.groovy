@@ -10,12 +10,14 @@ def call(body) {
 	echo new GitHelper(this).getBranches(inputParams.repoUrl).toString()
 	
     node {
-        stage('Pull source') {
-            echo 'Pulling ' + inputParams.repoUrl
-			checkout scm: [$class: 'GitSCM',
-									   userRemoteConfigs: [[url: inputParams.repoUrl]]
-						]
-        }
+		
+        //stage('Pull source') {
+            //echo 'Pulling ' + inputParams.repoUrl
+			//checkout scm: [$class: 'GitSCM',
+				//					   userRemoteConfigs: [[url: inputParams.repoUrl]]
+					//	]
+        //}
+		
 		stage('Update modules jobs') {
 			jobDslExecute("""
 				folder('module') {
